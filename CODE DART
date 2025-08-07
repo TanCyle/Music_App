@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const String title = 'Music App';
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: title,
+      home: const MainScreen(),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    const DiscoverScreen(),
+    const SongScreen(),
+  ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Music App')),
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: onTabTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Discover'),
+          BottomNavigationBarItem(icon: Icon(Icons.library_music), label: 'Song'),
+        ],
+      ),
+    );
+  }
+}
+
+class DiscoverScreen extends StatelessWidget {
+  const DiscoverScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage('https://preview.redd.it/found-nectars-full-album-cover-found-it-thru-88s-discord-v0-tcv71m338ni91.jpg?width=640&crop=smart&auto=webp&s=d984d03918f0b9da7a06e0587019e14b8f40be09'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          'Discover New Music',
+          style: TextStyle(fontSize: 24, color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+class SongScreen extends StatelessWidget {
+  const SongScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              "Hot Recommended",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 5,  //  songs to display
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.grey[850],
+                  margin: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(
+                      'Song Title $index',  // song titles
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    subtitle: const Text(
+                      'Artist Name', //example artist is joji
+                      style: TextStyle(color: Colors.grey),
+
+                    ),
+                    trailing: Icon(Icons.favorite_border, color: Colors.lavender),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}5
